@@ -1,0 +1,6 @@
+/venv/
+/.idea/
+/db/
+/__pycache__/
+/.pytest_cache/
+/identifier.sqlite/
