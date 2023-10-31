@@ -3,4 +3,8 @@
 /db/
 /__pycache__/
 /.pytest_cache/
-/identifier.sqlite/
+identifier.sqlite
+.gitignore
+/data/
+/generator/
+/fixtures/

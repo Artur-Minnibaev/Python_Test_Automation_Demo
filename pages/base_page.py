@@ -24,6 +24,22 @@ class BasePage:
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_all_elements_located(locator),
                                                          message=f"Elements are empty {locator}")
 
+    def element_is_present(self, locator, timeout=5):
+        return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator),
+                                                         message=f"Element is empty {locator}")
+
+    def elements_are_presents(self, locator, timeout=5):
+        return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator),
+                                                         message=f"Elements are empty {locator}")
+
+    def element_is_not_visible(self, locator, timeout=5):
+        return WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located(locator),
+                                                         message=f"Element is not visible {locator}")
+
+    def element_is_clickable(self, locator, timeout=5):
+        return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator),
+                                                         message=f"Element is not clickable {locator}")
+
     def remove_extra_elements(self):
         self.driver.execute_script("document.getElementsByTagName('div')[4].remove();")
         self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")

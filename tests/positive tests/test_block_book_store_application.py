@@ -1,5 +1,5 @@
-from pages.login_page import Login
 from config import config
+from pages.login_page import Login
 
 EXPECTED_TEXT = config.user_name
 
