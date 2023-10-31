@@ -1,12 +1,14 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from config import config
 
 
 class BasePage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.base_url = 'https://demoqa.com/login'
+        self.base_url_login = config.url_login
+        self.base_url_profile = config.url_profile
 
     def find_element(self, locator, time=10):
         return WebDriverWait(self.driver, time).until(EC.presence_of_element_located(locator),
@@ -45,5 +47,8 @@ class BasePage:
         self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")
         self.driver.execute_script("document.getElementById('fixedban').style.display='none';")
 
-    def go_to_site(self):
-        return self.driver.get(self.base_url)
+    def open_page_login(self):
+        return self.driver.get(self.base_url_login)
+
+    def open_page_profile(self):
+        return self.driver.get(self.base_url_profile)

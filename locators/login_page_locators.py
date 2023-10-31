@@ -7,3 +7,4 @@ class LoginLocators:
     LOCATOR_PASSWORD_FIELD = (By.ID, "password")  # //input[@id='password']
     LOCATOR_BUTTON_LOGIN = (By.XPATH, '//*[@id="login"]')  # //*[@id="login"]
     LOCATOR_APP_LOGO = (By.ID, "userName-value")  # //label[@id='userName-value']
+

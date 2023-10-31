@@ -3,7 +3,7 @@ from config import config
 from locators.login_page_locators import LoginLocators
 
 
-class Login(BasePage):
+class LoginPage(BasePage):
     """The function of LOG IN and check successful login system"""
     def enter_username(self):
         username_field = self.find_element(LoginLocators.LOCATOR_USERNAME_FIELD)
@@ -19,4 +19,5 @@ class Login(BasePage):
         return self.element_is_visible(LoginLocators.LOCATOR_BUTTON_LOGIN).click()
 
     def check_title(self):
-        return self.find_elements(LoginLocators.LOCATOR_APP_LOGO, time=5)
+        return self.find_elements(LoginLocators.LOCATOR_APP_LOGO)
+
