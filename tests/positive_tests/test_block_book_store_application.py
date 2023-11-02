@@ -1,10 +1,9 @@
 from config import config
 from pages.login_page import LoginPage
 from pages.profile_page import ProfilePage
-from conftest import browser
 
 
-class TestLoginPage:
+class TestLogin:
     """Login with valid credentials"""
     def test_login(self, browser):
         # Test-case verifies successful logging to the system by its title

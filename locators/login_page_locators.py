@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-class LoginLocators:
+class LoginPageLocators:
     """Description of using locators"""
     LOCATOR_USERNAME_FIELD = (By.ID, "userName")  # //input[@id='userName']
     LOCATOR_PASSWORD_FIELD = (By.ID, "password")  # //input[@id='password']

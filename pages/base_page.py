@@ -9,6 +9,7 @@ class BasePage:
         self.driver = driver
         self.base_url_login = config.url_login
         self.base_url_profile = config.url_profile
+        self.base_url_text_box = config.url_text_box
 
     def find_element(self, locator, time=10):
         return WebDriverWait(self.driver, time).until(EC.presence_of_element_located(locator),
@@ -52,3 +53,6 @@ class BasePage:
 
     def open_page_profile(self):
         return self.driver.get(self.base_url_profile)
+
+    def open_page_text_box(self):
+        return self.driver.get(self.base_url_text_box)

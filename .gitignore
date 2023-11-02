@@ -5,6 +5,4 @@
 /.pytest_cache/
 identifier.sqlite
 .gitignore
-/data/
-/generator/
 /fixtures/
