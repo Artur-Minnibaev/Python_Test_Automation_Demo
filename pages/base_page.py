@@ -10,6 +10,7 @@ class BasePage:
         self.base_url_login = config.url_login
         self.base_url_profile = config.url_profile
         self.base_url_text_box = config.url_text_box
+        self.base_url_checkbox = config.url_checkbox
 
     def find_element(self, locator, time=10):
         return WebDriverWait(self.driver, time).until(EC.presence_of_element_located(locator),
@@ -23,7 +24,7 @@ class BasePage:
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator),
                                                          message=f"Element is empty {locator}")
 
-    def element_are_visible(self, locator, timeout=5):
+    def elements_are_visible(self, locator, timeout=5):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_all_elements_located(locator),
                                                          message=f"Elements are empty {locator}")
 
@@ -31,7 +32,7 @@ class BasePage:
         return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator),
                                                          message=f"Element is empty {locator}")
 
-    def elements_are_presents(self, locator, timeout=5):
+    def elements_are_present(self, locator, timeout=5):
         return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator),
                                                          message=f"Elements are empty {locator}")
 
@@ -48,6 +49,9 @@ class BasePage:
         self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")
         self.driver.execute_script("document.getElementById('fixedban').style.display='none';")
 
+    def go_to_element(self, element):
+        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+
     def open_page_login(self):
         return self.driver.get(self.base_url_login)
 
@@ -56,3 +60,6 @@ class BasePage:
 
     def open_page_text_box(self):
         return self.driver.get(self.base_url_text_box)
+
+    def open_page_checkbox(self):
+        return self.driver.get(self.base_url_checkbox)

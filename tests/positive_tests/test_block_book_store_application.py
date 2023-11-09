@@ -1,6 +1,7 @@
 from config import config
 from pages.login_page import LoginPage
 from pages.profile_page import ProfilePage
+from conftest import *
 
 
 class TestLogin:
