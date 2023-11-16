@@ -1,5 +1,7 @@
+import time
 from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
+from conftest import *
 
 
 class TestElements:
@@ -16,9 +18,15 @@ class TestElements:
     class TestCheckBox:
 
         def test_dropdown_list_wit_toggle_dropdown_button(self, browser):
+            # Test of compare checked checkboxes
             checkbox_page = CheckBoxPage(browser)
             checkbox_page.open_page_checkbox()
             checkbox_page.open_full_list_with_toggle_dropdown_button()
+            checkbox_page.select_particular_element()
+            checkbox_page.get_checked_box()
+            input_result = checkbox_page.get_checked_box()
+            output_result = checkbox_page.get_output_result()
+            assert input_result == output_result, "[FAIL] The data does not the same"
 
         def test_dropdown_list_with_expand_all_button(self, browser):
             pass
