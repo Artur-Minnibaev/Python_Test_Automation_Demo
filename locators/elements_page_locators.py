@@ -22,5 +22,7 @@ class CheckBoxPageLocators:
     LOCATORS_TOGGLE_COLLAPSE_LIST = (By.CSS_SELECTOR, "button[title='Collapse all']")
     LOCATORS_ITEM_LIST = (By.CSS_SELECTOR, "span[class='rct-title']")
     LOCATORS_CHECKED_LIST = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-expand-close']")
-    # LOCATORS_CHECKED_LIST = ".//ancestor::span[@class='rct-text']"
-    LOCATORS_CHECKED_BOX = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-check']")
+    LOCATORS_TITLE_ITEM = ".//ancestor::span[@class='rct-text']"
+    LOCATORS_CHECKED_BOX = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-uncheck']")
+    LOCATORS_CHECKED_ITEMS = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-check']")
+    LOCATORS_OUTPUT_ITEMS_RESULT = (By.CSS_SELECTOR, "span[class='text-success']")

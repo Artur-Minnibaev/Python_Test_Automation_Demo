@@ -37,10 +37,17 @@ class CheckBoxPage(BasePage):
 
     def open_full_list_with_toggle_dropdown_button(self):
         self.element_is_present(self.locator.LOCATORS_TOGGLE_DROPDOWN).click()
-        toggle_list = self.elements_are_present(self.locator.LOCATORS_CHECKED_LIST)
-        for toggle in toggle_list:
-            self.go_to_element(toggle)
-            toggle.click()
+        while True:
+            toggle_list1 = self.elements_are_present(self.locator.LOCATORS_CHECKED_LIST)
+            for toggle1 in toggle_list1:
+                self.go_to_element(toggle1)
+                toggle1.click()
+            toggle_list2 = self.elements_are_present(self.locator.LOCATORS_CHECKED_LIST)
+            for toggle2 in toggle_list2:
+                self.go_to_element(toggle2)
+                toggle2.click()
+            else:
+                break
 
     def open_full_list_with_expand_all_button(self):
         self.element_is_visible(self.locator.LOCATORS_TOGGLE_EXPAND_LIST).click()
@@ -50,6 +57,9 @@ class CheckBoxPage(BasePage):
 
     def select_all_elements(self):
         self.element_is_visible(self.locator.LOCATORS_ITEM_LIST).click()
+
+    def select_particular_element(self):
+        self.element_is_visible(self.locator.LOCATORS_CHECKED_BOX).click()
 
     def select_random_elements(self):
         item_list = self.element_is_visible(self.locator.LOCATORS_ITEM_LIST)
@@ -61,4 +71,16 @@ class CheckBoxPage(BasePage):
         return toggle_list
 
     def get_checked_box(self):
-        pass
+        checked_list = self.elements_are_present(self.locator.LOCATORS_CHECKED_ITEMS)
+        data = []
+        for box in checked_list:
+            title_item = box.find_element(By.XPATH, self.locator.LOCATORS_TITLE_ITEM)
+            data.append(title_item.text)
+        return str(data).replace(' ', '').replace('.doc', '').lower()
+
+    def get_output_result(self):
+        result_list = self.elements_are_present(self.locator.LOCATORS_OUTPUT_ITEMS_RESULT)
+        data = []
+        for item in result_list:
+            data.append(item.text)
+        return str(data).replace(' ', '').lower()
