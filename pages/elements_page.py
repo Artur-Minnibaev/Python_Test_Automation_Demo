@@ -23,7 +23,7 @@ class TextBoxPage(BasePage):
         return full_name, email, current_address, permanent_address
 
     def check_filled_form(self):
-        """Obtaining data on the Text Box page"""
+        """Obtaining selected data on the Text Box page"""
         full_name = self.element_is_present(self.locators.CREATED_LOCATORS_FULL_NAME_FIELD).text.split(':')[1]
         email = self.element_is_present(self.locators.CREATED_LOCATORS_EMAIL_FIELD).text.split(':')[1]
         current_address = self.element_is_present(self.locators.CREATED_LOCATORS_CURRENT_ADDRESS).text.split(':')[1]
@@ -36,6 +36,7 @@ class CheckBoxPage(BasePage):
     locator = CheckBoxPageLocators()
 
     def open_full_list_with_toggle_dropdown_button(self):
+        """Expanding all elements by clicking on the toggles"""
         self.element_is_present(self.locator.LOCATORS_TOGGLE_DROPDOWN).click()
         while True:
             toggle_list1 = self.elements_are_present(self.locator.LOCATORS_CHECKED_LIST)
@@ -50,27 +51,42 @@ class CheckBoxPage(BasePage):
                 break
 
     def open_full_list_with_expand_all_button(self):
+        """Expanding all elements by clicking on a 'Expand button'"""
         self.element_is_visible(self.locator.LOCATORS_TOGGLE_EXPAND_LIST).click()
 
     def collapse_all_button(self):
+        """Closing all elements by clicking on a 'Collapse button'"""
         self.element_is_visible(self.locator.LOCATORS_TOGGLE_COLLAPSE_LIST).click()
 
-    def select_all_elements(self):
-        self.element_is_visible(self.locator.LOCATORS_ITEM_LIST).click()
+    def select_elements_by_title(self):
+        """Selecting elements by title"""
+        item_list = self.elements_are_visible(self.locator.LOCATORS_ITEM_LIST)
+        for item in item_list:
+            self.go_to_element(item)
+            item.click()
 
     def select_particular_element(self):
-        self.element_is_visible(self.locator.LOCATORS_CHECKED_BOX).click()
+        """Selecting a particular element"""
+        elements_list = self.elements_are_visible(self.locator.LOCATORS_CHECKED_BOX)
+        element = elements_list[random.randint(1, 16)]
+        self.go_to_element(element)
+        element.click()
 
     def select_random_elements(self):
-        item_list = self.element_is_visible(self.locator.LOCATORS_ITEM_LIST)
-        item = item_list[random.randint(1, 17)]
-        self.go_to_element(item).click()
-
-    def compare_toggle_list(self):
-        toggle_list = self.elements_are_present(self.locator.LOCATORS_CHECKED_LIST)
-        return toggle_list
+        """Selecting random elements"""
+        item_list = self.elements_are_visible(self.locator.LOCATORS_ITEM_LIST)
+        count = 17
+        while count != 0:
+            item = item_list[random.randint(1, 16)]
+            if count > 0:
+                self.go_to_element(item)
+                item.click()
+                count -= 1
+            else:
+                break
 
     def get_checked_box(self):
+        """Jump to elements"""
         checked_list = self.elements_are_present(self.locator.LOCATORS_CHECKED_ITEMS)
         data = []
         for box in checked_list:
@@ -79,6 +95,7 @@ class CheckBoxPage(BasePage):
         return str(data).replace(' ', '').replace('.doc', '').lower()
 
     def get_output_result(self):
+        """Obtaining output results"""
         result_list = self.elements_are_present(self.locator.LOCATORS_OUTPUT_ITEMS_RESULT)
         data = []
         for item in result_list:
