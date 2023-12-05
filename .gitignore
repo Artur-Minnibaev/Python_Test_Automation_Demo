@@ -1,6 +1,6 @@
 /venv/
 /.idea/
-/db/
+/db/file.json
 /__pycache__/
 /.pytest_cache/
 identifier.sqlite
