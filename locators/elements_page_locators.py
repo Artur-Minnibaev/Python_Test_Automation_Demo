@@ -3,26 +3,34 @@ from selenium.webdriver.common.by import By
 
 class TextBoxPageLocators:
     """Description of using locators"""
-    LOCATORS_FULL_NAME_FIELD = (By.CSS_SELECTOR, "input[id='userName']")
-    LOCATORS_EMAIL_FIELD = (By.CSS_SELECTOR, "input[id='userEmail']")
-    LOCATORS_CURRENT_ADDRESS = (By.CSS_SELECTOR, "textarea[id='currentAddress']")
-    LOCATORS_PERMANENT_ADDRESS = (By.CSS_SELECTOR, "textarea[id='permanentAddress']")
-    LOCATORS_BUTTON_SUBMIT = (By.CSS_SELECTOR, "button[id='submit']")
+    LOCATOR_FULL_NAME_FIELD = (By.CSS_SELECTOR, "input[id='userName']")
+    LOCATOR_EMAIL_FIELD = (By.CSS_SELECTOR, "input[id='userEmail']")
+    LOCATOR_CURRENT_ADDRESS = (By.CSS_SELECTOR, "textarea[id='currentAddress']")
+    LOCATOR_PERMANENT_ADDRESS = (By.CSS_SELECTOR, "textarea[id='permanentAddress']")
+    LOCATOR_BUTTON_SUBMIT = (By.CSS_SELECTOR, "button[id='submit']")
 
-    CREATED_LOCATORS_FULL_NAME_FIELD = (By.CSS_SELECTOR, "#output #name")
-    CREATED_LOCATORS_EMAIL_FIELD = (By.CSS_SELECTOR, "#output #email")
-    CREATED_LOCATORS_CURRENT_ADDRESS = (By.CSS_SELECTOR, "#output #currentAddress")
-    CREATED_LOCATORS_PERMANENT_ADDRESS = (By.CSS_SELECTOR, "#output #permanentAddress")
+    CREATED_LOCATOR_FULL_NAME_FIELD = (By.CSS_SELECTOR, "#output #name")
+    CREATED_LOCATOR_EMAIL_FIELD = (By.CSS_SELECTOR, "#output #email")
+    CREATED_LOCATOR_CURRENT_ADDRESS = (By.CSS_SELECTOR, "#output #currentAddress")
+    CREATED_LOCATOR_PERMANENT_ADDRESS = (By.CSS_SELECTOR, "#output #permanentAddress")
 
 
 class CheckBoxPageLocators:
     """Description of using locators"""
-    LOCATORS_TOGGLE_DROPDOWN = (By.CSS_SELECTOR, "button[title='Toggle']")
-    LOCATORS_TOGGLE_EXPAND_LIST = (By.CSS_SELECTOR, "button[title='Expand all']")
-    LOCATORS_TOGGLE_COLLAPSE_LIST = (By.CSS_SELECTOR, "button[title='Collapse all']")
-    LOCATORS_ITEM_LIST = (By.CSS_SELECTOR, "span[class='rct-title']")
-    LOCATORS_CHECKED_LIST = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-expand-close']")
-    LOCATORS_TITLE_ITEM = ".//ancestor::span[@class='rct-text']"
-    LOCATORS_CHECKED_BOX = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-uncheck']")
-    LOCATORS_CHECKED_ITEMS = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-check']")
-    LOCATORS_OUTPUT_ITEMS_RESULT = (By.CSS_SELECTOR, "span[class='text-success']")
+    LOCATOR_TOGGLE_DROPDOWN = (By.CSS_SELECTOR, "button[title='Toggle']")
+    LOCATOR_TOGGLE_EXPAND_LIST = (By.CSS_SELECTOR, "button[title='Expand all']")
+    LOCATOR_TOGGLE_COLLAPSE_LIST = (By.CSS_SELECTOR, "button[title='Collapse all']")
+    LOCATOR_ITEM_LIST = (By.CSS_SELECTOR, "span[class='rct-title']")
+    LOCATOR_CHECKED_LIST = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-expand-close']")
+    LOCATOR_TITLE_ITEM = ".//ancestor::span[@class='rct-text']"
+    LOCATOR_CHECKED_BOX = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-uncheck']")
+    LOCATOR_CHECKED_ITEMS = (By.CSS_SELECTOR, "svg[class='rct-icon rct-icon-check']")
+    LOCATOR_OUTPUT_ITEMS_RESULT = (By.CSS_SELECTOR, "span[class='text-success']")
+
+
+class RadioButtonPageLocators:
+    """Description of using locators"""
+    LOCATOR_YES_RADIOBUTTON = (By.CSS_SELECTOR, "label[class^='custom-control'][for='yesRadio']")
+    LOCATOR_NO_RADIOBUTTON = (By.CSS_SELECTOR, "label[class^='custom-control'][for='noRadio']")
+    LOCATOR_IMPRESSIVE_RADIOBUTTON = (By.CSS_SELECTOR, "label[class^='custom-control'][for='impressiveRadio']")
+    LOCATOR_OUTPUT_RESULT = (By.CSS_SELECTOR, "p span[class='text-success']")

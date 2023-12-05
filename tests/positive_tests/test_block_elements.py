@@ -1,7 +1,6 @@
-import time
 from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
-from conftest import *
+from pages.elements_page import RadioButtonPage
 
 
 class TestElements:
@@ -65,3 +64,18 @@ class TestElements:
             checkbox_page.collapse_all_button()
             output_result = checkbox_page.get_output_result()
             assert input_result == output_result, "[FAIL] The data does not the same"
+
+    class TestRadioButton:
+
+        def test_radio_button(self, browser):
+            radio_button_page = RadioButtonPage(browser)
+            radio_button_page.open_page_radio_button()
+            radio_button_page.click_radio_button('yes')
+            output_yes = radio_button_page.get_output_result()
+            radio_button_page.click_radio_button('impressive')
+            output_impressive = radio_button_page.get_output_result()
+            radio_button_page.click_radio_button('no')
+            output_no = radio_button_page.get_output_result()
+            assert output_yes == 'Yes', "'Yes' option has not been selected"
+            assert output_impressive == 'Impressive', "'Impressive' option has not been selected"
+            assert output_no == 'No', "'No' option has not been selected"
