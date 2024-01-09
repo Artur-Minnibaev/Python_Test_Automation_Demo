@@ -34,3 +34,20 @@ class RadioButtonPageLocators:
     LOCATOR_NO_RADIOBUTTON = (By.CSS_SELECTOR, "label[class^='custom-control'][for='noRadio']")
     LOCATOR_IMPRESSIVE_RADIOBUTTON = (By.CSS_SELECTOR, "label[class^='custom-control'][for='impressiveRadio']")
     LOCATOR_OUTPUT_RESULT = (By.CSS_SELECTOR, "p span[class='text-success']")
+
+
+class WebTablePageLocators:
+    """Description of using locators"""
+    # adding person
+    LOCATOR_ADD_BUTTON = (By.CSS_SELECTOR, "button[id='addNewRecordButton']")
+    LOCATOR_FIRST_NAME = (By.CSS_SELECTOR, "input[id='firstName']")
+    LOCATOR_LAST_NAME = (By.CSS_SELECTOR, "input[id='lastName']")
+    LOCATOR_EMAIL = (By.CSS_SELECTOR, "input[id='userEmail']")
+    LOCATOR_AGE = (By.CSS_SELECTOR, "input[id='age']")
+    LOCATOR_SALARY = (By.CSS_SELECTOR, "input[id='salary']")
+    LOCATOR_DEPARTMENT = (By.CSS_SELECTOR, "input[id='department']")
+    LOCATOR_SUBMIT = (By.CSS_SELECTOR, "button[id='submit']")
+    LOCATOR_CLOSE_BUTTON_POP_UP = (By.CSS_SELECTOR, "span[aria-hidden='true']")
+
+    # searching person
+    LOCATOR_FULL_PERSON_LIST = (By.CSS_SELECTOR, "div[class='rt-tr-group']")

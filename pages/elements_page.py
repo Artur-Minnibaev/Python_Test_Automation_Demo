@@ -108,6 +108,7 @@ class RadioButtonPage(BasePage):
     locator = RadioButtonPageLocators()
 
     def click_radio_button(self, choice):
+        """Choose options among radiobuttons"""
         choices = {
             'yes': self.locator.LOCATOR_YES_RADIOBUTTON,
             'impressive': self.locator.LOCATOR_IMPRESSIVE_RADIOBUTTON,
@@ -115,4 +116,62 @@ class RadioButtonPage(BasePage):
         self.element_is_visible(choices[choice]).click()
 
     def get_output_result(self):
+        """Obtaining output results"""
         return self.element_is_present(self.locator.LOCATOR_OUTPUT_RESULT).text
+
+
+class WebTablePage(BasePage):
+
+    locator = WebTablePageLocators()
+
+    def add_new_person(self):
+        """Adding a new person"""
+        count = 1
+        while count != 0:
+            person_info = next(generated_person())
+            firstname = person_info.firstname
+            lastname = person_info.lastname
+            email = person_info.email
+            age = person_info.age
+            salary = person_info.salary
+            department = person_info.department
+            self.element_is_visible(self.locator.LOCATOR_ADD_BUTTON).click()
+            self.element_is_visible(self.locator.LOCATOR_FIRST_NAME).send_keys(firstname)
+            self.element_is_visible(self.locator.LOCATOR_LAST_NAME).send_keys(lastname)
+            self.element_is_visible(self.locator.LOCATOR_EMAIL).send_keys(email)
+            self.element_is_visible(self.locator.LOCATOR_AGE).send_keys(age)
+            self.element_is_visible(self.locator.LOCATOR_SALARY).send_keys(salary)
+            self.element_is_visible(self.locator.LOCATOR_DEPARTMENT).send_keys(department)
+            self.element_is_visible(self.locator.LOCATOR_SUBMIT).click()
+            count -= 1
+            return [firstname, lastname, str(age), email, str(salary), department]
+
+    def check_added_new_person(self):
+        """Obtaining output results"""
+        person_list = self.elements_are_present(self.locator.LOCATOR_FULL_PERSON_LIST)
+        data = []
+        for person in person_list:
+            data.append(person.text.splitlines())
+        return data
+
+    def close_pop_up(self):
+        """Closing a pop-up without adding a new person to the list"""
+        count = 1
+        while count != 0:
+            person_info = next(generated_person())
+            firstname = person_info.firstname
+            lastname = person_info.lastname
+            email = person_info.email
+            age = person_info.age
+            salary = person_info.salary
+            department = person_info.department
+            self.element_is_visible(self.locator.LOCATOR_ADD_BUTTON).click()
+            self.element_is_visible(self.locator.LOCATOR_FIRST_NAME).send_keys(firstname)
+            self.element_is_visible(self.locator.LOCATOR_LAST_NAME).send_keys(lastname)
+            self.element_is_visible(self.locator.LOCATOR_EMAIL).send_keys(email)
+            self.element_is_visible(self.locator.LOCATOR_AGE).send_keys(age)
+            self.element_is_visible(self.locator.LOCATOR_SALARY).send_keys(salary)
+            self.element_is_visible(self.locator.LOCATOR_DEPARTMENT).send_keys(department)
+            self.element_is_visible(self.locator.LOCATOR_CLOSE_BUTTON_POP_UP).click()
+            count -= 1
+            return [firstname, lastname, str(age), email, str(salary), department]

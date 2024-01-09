@@ -12,6 +12,7 @@ class BasePage:
         self.base_url_text_box = config.url_text_box
         self.base_url_checkbox = config.url_checkbox
         self.base_url_radio_button = config.url_radio_button
+        self.base_url_web_table = config.url_web_table
 
     def find_element(self, locator, time=10):
         return WebDriverWait(self.driver, time).until(EC.presence_of_element_located(locator),
@@ -67,3 +68,6 @@ class BasePage:
 
     def open_page_radio_button(self):
         return self.driver.get(self.base_url_radio_button)
+
+    def open_page_web_table(self):
+        return self.driver.get(self.base_url_web_table)

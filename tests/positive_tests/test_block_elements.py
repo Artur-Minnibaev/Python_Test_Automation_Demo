@@ -1,6 +1,7 @@
 from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
 from pages.elements_page import RadioButtonPage
+from pages.elements_page import WebTablePage
 
 
 class TestElements:
@@ -68,6 +69,7 @@ class TestElements:
     class TestRadioButton:
 
         def test_radio_button(self, browser):
+            # Test of selection options on the page "Radio Button"
             radio_button_page = RadioButtonPage(browser)
             radio_button_page.open_page_radio_button()
             radio_button_page.click_radio_button('yes')
@@ -79,3 +81,20 @@ class TestElements:
             assert output_yes == 'Yes', "'Yes' option has not been selected"
             assert output_impressive == 'Impressive', "'Impressive' option has not been selected"
             assert output_no == 'No', "'No' option has not been selected"
+
+    class TestWebTable:
+
+        def test_add_person(self, browser):
+            # Test of adding a person by clicking the "Submit" button
+            web_table_page = WebTablePage(browser)
+            web_table_page.open_page_web_table()
+            input_data = web_table_page.add_new_person()
+            output_data = web_table_page.check_added_new_person()
+            assert input_data in output_data, "[FAIL]Data is empty"
+
+        def test_closing_pop_up(self, browser):
+            # Test of adding a person without clicking the "Submit" button
+            web_table_page = WebTablePage(browser)
+            input_data = web_table_page.close_pop_up()
+            output_data = web_table_page.check_added_new_person()
+            assert input_data not in output_data, "[FAIL]Data exists"
