@@ -1,8 +1,0 @@
-/venv/
-/.idea/
-/db/file.json
-/__pycache__/
-/.pytest_cache/
-identifier.sqlite
-.gitignore
-/fixtures/
