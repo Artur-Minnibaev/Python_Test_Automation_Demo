@@ -1,11 +1,11 @@
-from sqlalchemy import create_engine
+import pytest
+import psycopg2
+from fixtures import connection_db
 
-engine = create_engine(
-    "postgresql+psycopg2://postgres:postgres@127.0.0.1/postgres", echo=True, pool_size=6, max_overflow=10
-)
-connection = engine.connect()
 
-select_all_query = connection.se
-select_all_results = connection.execute(select_all_query)
+def test_select_data(setup_database):
+    cur = setup_database.cursor()
+    param = cur.execute("SELECT * FROM items_app WHERE title='Git Pocket Guide'")
+    print(param)
+    # assert param ==
 
-print(select_all_results.fetchall())

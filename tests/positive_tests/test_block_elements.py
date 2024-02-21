@@ -1,11 +1,18 @@
+import allure
+
 from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
 from pages.elements_page import RadioButtonPage
 from pages.elements_page import WebTablePage
 
 
+@allure.suite("Elements")
 class TestElements:
+
+    @allure.feature('TextBox')
     class TestTextBox:
+
+        @allure.title('Check TextBox')
         def test_text_box(self, browser):
             # Test-case compares the data between input data and output data
             text_box_page = TextBoxPage(browser)
@@ -15,8 +22,10 @@ class TestElements:
             output_data = text_box_page.check_filled_form()
             assert input_data == output_data, "[FAIL] The data does not the same"
 
+    @allure.feature('CheckBox')
     class TestCheckBox:
 
+        @allure.title('Test of comparison input data and output data results using toggle dropdown list')
         def test_dropdown_list_using_toggle_dropdown_button(self, browser):
             # Test of comparison input data and output data results using toggle dropdown list
             checkbox_page = CheckBoxPage(browser)
@@ -28,6 +37,7 @@ class TestElements:
             assert input_result == output_result, "[FAIL] The data does not the same"
             # checkbox_page.collapse_all_button()
 
+        @allure.title('Test of comparison input data and output data results using toggle dropdown list')
         def test_dropdown_list_using_expand_all_button(self, browser):
             # Test of comparison input data and output data results using toggle dropdown list
             browser.refresh()
@@ -38,6 +48,7 @@ class TestElements:
             output_result = checkbox_page.get_output_result()
             assert input_result == output_result, "[FAIL] The data does not the same"
 
+        @allure.title('Test of verification randomly elements')
         def test_of_selected_randomly_elements(self, browser):
             # Test of verification randomly elements
             browser.refresh()
@@ -48,6 +59,7 @@ class TestElements:
             output_result = checkbox_page.get_output_result()
             assert input_result == output_result, "[FAIL] The data does not the same"
 
+        @allure.title('Test of verification elements chosen by title')
         def test_of_selected_elements_by_title(self, browser):
             # Test of verification elements chosen by title
             browser.refresh()
@@ -58,6 +70,7 @@ class TestElements:
             output_result = checkbox_page.get_output_result()
             assert input_result == output_result, "[FAIL] The data does not the same"
 
+        @allure.title('Test of verification elements with a closed dropdown list')
         def test_of_closing_dropdown_list_saving_output_data(self, browser):
             # Test of verification elements with a closed dropdown list
             checkbox_page = CheckBoxPage(browser)
@@ -66,8 +79,10 @@ class TestElements:
             output_result = checkbox_page.get_output_result()
             assert input_result == output_result, "[FAIL] The data does not the same"
 
+    @allure.feature('RadioButton')
     class TestRadioButton:
 
+        @allure.title('Check RadioButton')
         def test_radio_button(self, browser):
             # Test of selection options on the page "Radio Button"
             radio_button_page = RadioButtonPage(browser)
@@ -82,8 +97,10 @@ class TestElements:
             assert output_impressive == 'Impressive', "'Impressive' option has not been selected"
             assert output_no == 'No', "'No' option has not been selected"
 
+    @allure.feature('WebTable')
     class TestWebTable:
 
+        @allure.title('Test of adding a person by clicking the "Submit" button')
         def test_add_person(self, browser):
             # Test of adding a person by clicking the "Submit" button
             web_table_page = WebTablePage(browser)
@@ -92,6 +109,7 @@ class TestElements:
             output_data = web_table_page.check_added_new_person()
             assert input_data in output_data, "[FAIL]Data is empty"
 
+        @allure.title('Test of adding a person without clicking the "Submit" button')
         def test_closing_pop_up(self, browser):
             # Test of adding a person without clicking the "Submit" button
             web_table_page = WebTablePage(browser)
