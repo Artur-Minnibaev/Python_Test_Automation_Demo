@@ -1,7 +1,17 @@
 name: automated_tests
 
 on:
-  push
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: select test
+        required: true
+        default:
+        type: choice
+        options:
+          - ui_tests
+          - db_tests
+          - api_tests
 
 jobs:
   test:
@@ -18,6 +28,13 @@ jobs:
         run: sudo apt-get install google-chrome-stable
       - name: install dependencies
         run: pip install -r requirements.txt
-      - name: run tests
-        run: pytest
+      - name: ui tests
+        if: "github.event.inputs.deployment_target == 'ui_tests'"
+        run: pytest tests/positive_tests .
+      - name: db tests
+        if: "github.event.inputs.deployment_target == 'db_tests'"
+        run: pytest tests/DB_tests .
+      - name: api tests
+        if: "github.event.inputs.deployment_target == 'api_tests'"
+        run: pytest tests/API_tests .
 
