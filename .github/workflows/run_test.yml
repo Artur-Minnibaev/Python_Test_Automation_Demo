@@ -30,11 +30,56 @@ jobs:
         run: pip install -r requirements.txt
       - name: ui tests
         if: "github.event.inputs.deployment_target == 'ui_tests'"
-        run: pytest tests/positive_tests .
+        run: pytest tests/positive_tests --alluredir=allure-results
       - name: db tests
         if: "github.event.inputs.deployment_target == 'db_tests'"
-        run: pytest tests/DB_tests .
+        run: pytest tests/DB_tests --alluredir=allure-results
       - name: api tests
         if: "github.event.inputs.deployment_target == 'api_tests'"
-        run: pytest tests/API_tests .
+        run: pytest tests/API_tests --alluredir=allure-results
+      - name: store allure-results
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path:
+            allure-results
+          retention-days: 1
+
+  generate-report:
+    runs-on: ubuntu-latest
+    needs: test
+    name: generate report
+
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'microsoft' # See 'Supported distributions' for available options
+          java-version: "21"
+      - run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz && sudo tar -zxvf allure-2.27.0.tgz -C /opt/ && sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+      - run: allure generate -c allure-results -o _site
+      - name: store generated report
+        uses: actions/upload-artifact@v4
+        with:
+          name: _site
+          path:
+            _site
+          retention-days: 1
+
+
+  publish-report:
+    runs-on: ubuntu-latest
+    needs: generate-report
+    name: tests report
+
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+      - name: upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+      - name: deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-page@v3
+
 
