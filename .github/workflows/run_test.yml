@@ -43,7 +43,7 @@ jobs:
       - name: api tests
         if: "github.event.inputs.deployment_target == 'api_tests'"
         run: pytest tests/API_tests --alluredir=allure-results
-      - name: store allure-results
+      - name: Store allure-results
         uses: actions/upload-artifact@v4
         with:
           name: allure-results
@@ -65,7 +65,7 @@ jobs:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v4
       - run: allure generate -c allure-results -o _site
-      - name: store generated report
+      - name: Store generated report
         uses: actions/upload-artifact@v4
         with:
           name: _site
@@ -82,8 +82,8 @@ jobs:
     steps:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v4
-      - name: upload Pages artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
-      - name: deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-page@v3
+        uses: actions/deploy-pages@v4
