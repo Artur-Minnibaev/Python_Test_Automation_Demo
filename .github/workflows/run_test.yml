@@ -19,11 +19,6 @@ permissions:
   id-token: write
 
 jobs:
-  download-history:
-    runs-on: ubuntu-latest
-    name: download history
-
-
   test:
     runs-on: ubuntu-latest
 
