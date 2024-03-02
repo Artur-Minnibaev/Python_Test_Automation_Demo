@@ -1,5 +1,4 @@
 import allure
-
 from config import config
 from pages.login_page import LoginPage
 from pages.profile_page import ProfilePage
@@ -27,6 +26,10 @@ class TestLogin:
     def test_check_url_after_login(self, browser):
         # Test-case compares URLs after log in
         assert browser.current_url != config.url_login, "[FAIL] The URLs are the same"
+        login_page = LoginPage(browser)
+        login_page.open_page_login()
+        main_page = login_page.check_main_header()
+        assert main_page.text == 'You are already logged in. View your profile.', "[FAIL] Invalid main header"
 
     @allure.title('Logout')
     def test_log_out(self, browser):

@@ -27,3 +27,7 @@ class LoginPage(BasePage):
     def check_title(self):
         return self.find_elements(locator.LOCATOR_APP_LOGO)
 
+    @allure.step("Check main header")
+    def check_main_header(self):
+        return self.find_element(locator.LOCATOR_MAIN_HEADER)
+
