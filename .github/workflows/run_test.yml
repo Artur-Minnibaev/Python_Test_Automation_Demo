@@ -13,13 +13,18 @@ on:
           - db_tests
           - api_tests
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
       - name: checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3
       - name: setup Python
         uses: actions/setup-python@v3
         with:
@@ -81,5 +86,3 @@ jobs:
       - name: deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-page@v3
-
-
