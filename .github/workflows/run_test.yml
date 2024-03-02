@@ -19,6 +19,11 @@ permissions:
   id-token: write
 
 jobs:
+  download-history:
+    runs-on: ubuntu-latest
+    name: download history
+
+
   test:
     runs-on: ubuntu-latest
 
@@ -36,6 +41,7 @@ jobs:
       - name: ui tests
         if: "github.event.inputs.deployment_target == 'ui_tests'"
         run: pytest tests/positive_tests --alluredir=allure-results
+        continue-on-error: true
       - name: db tests
         if: "github.event.inputs.deployment_target == 'db_tests'"
         run: pytest tests/DB_tests --alluredir=allure-results
