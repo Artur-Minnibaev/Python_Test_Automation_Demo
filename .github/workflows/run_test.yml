@@ -39,10 +39,10 @@ jobs:
         continue-on-error: true
       - name: db tests
         if: "github.event.inputs.deployment_target == 'db_tests'"
-        run: pytest tests/DB_tests --alluredir=allure-results
+        run: pytest tests/integration --alluredir=allure-results
       - name: api tests
         if: "github.event.inputs.deployment_target == 'api_tests'"
-        run: pytest tests/API_tests --alluredir=allure-results
+        run: pytest tests/api --alluredir=allure-results
       - name: Store allure-results
         uses: actions/upload-artifact@v4
         with:
