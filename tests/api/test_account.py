@@ -9,11 +9,10 @@ uuid = []
 @allure.feature("Users")
 class TestAccount(BaseTest):
 
-    @allure.title("Create new user")
+    @allure.title("Create a new user")
     def test_create_user(self):
         user = self.api_account.create_user()
         uuid.append(user.userID)
-        print(user.userID)
 
     @allure.title("Auth user")
     def test_auth_user(self):
