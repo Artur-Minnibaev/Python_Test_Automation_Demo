@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  all-tests:
+    image: all-tests:v1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/Python_Test_Automation_Demo
+    command:  /bin/sh -c "pytest -sv tests/api/test_account.py --alluredir=allure-results"
+    working_dir: /usr/Python_Test_Automation_Demo
+
+  report:
+      image: all-tests:v1
+      build:
+        context: .
+        dockerfile: Dockerfile
+      volumes:
+        - ./:/usr/Python_Test_Automation_Demo
+      command: /bin/sh -c "allure generate allure-results --clean -o allur-report"
+      working_dir: /usr/Python_Test_Automation_Demo
