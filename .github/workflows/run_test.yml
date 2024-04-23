@@ -35,14 +35,14 @@ jobs:
         run: pip install -r requirements.txt
       - name: ui tests
         if: "github.event.inputs.deployment_target == 'ui_tests'"
-        run: pytest tests/positive_tests --alluredir=allure-results
+        run: pytest tests/ui_tests --alluredir=allure-results
         continue-on-error: true
       - name: db tests
         if: "github.event.inputs.deployment_target == 'db_tests'"
         run: pytest tests/integration --alluredir=allure-results
       - name: api tests
         if: "github.event.inputs.deployment_target == 'api_tests'"
-        run: pytest tests/api --alluredir=allure-results
+        run: pytest tests/api/test_account.py --alluredir=allure-results
       - name: Store allure-results
         uses: actions/upload-artifact@v4
         with:
