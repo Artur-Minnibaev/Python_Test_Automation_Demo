@@ -1,6 +1,28 @@
-version: "3.7"
+version: "3.8"
 
 services:
+
+  selenium-hub:
+    image: selenium/hub
+    ports:
+    - "4444:4444"
+
+  chrome:
+    image: selenium/standalone-chrome:3.141.59-20210607
+    shm_size: 2gb
+    privileged: true
+    hostname: chrome
+    ports:
+      - "4441:4444"
+      - "7900:7900"
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+
   all-tests:
     image: all-tests:v1
     build:
@@ -8,8 +30,12 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/usr/Python_Test_Automation_Demo
-    command:  /bin/sh -c "pytest -sv tests/api/test_account.py --alluredir=allure-results"
+    command:  /bin/sh -c "pytest -sv tests/ --alluredir=allure-results"
     working_dir: /usr/Python_Test_Automation_Demo
+    depends_on:
+      - chrome
+    networks:
+      - default
 
   report:
       image: all-tests:v1
@@ -18,5 +44,13 @@ services:
         dockerfile: Dockerfile
       volumes:
         - ./:/usr/Python_Test_Automation_Demo
-      command: /bin/sh -c "allure generate allure-results --clean -o allur-report"
+      command: /bin/sh -c "allure generate allure-results --clean -o allure-report"
       working_dir: /usr/Python_Test_Automation_Demo
+      depends_on:
+        - all-tests
+      networks:
+        - default
+
+networks:
+  default:
+    driver: bridge
