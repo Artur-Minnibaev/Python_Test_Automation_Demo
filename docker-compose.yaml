@@ -8,7 +8,7 @@ services:
     - "4444:4444"
 
   chrome:
-    image: selenium/standalone-chrome
+    image: selenium/standalone-chrome:3.141.59-20210607
     shm_size: 2gb
     privileged: true
     hostname: chrome
@@ -34,6 +34,7 @@ services:
     working_dir: /usr/Python_Test_Automation_Demo
     depends_on:
       - chrome
+      - selenium-hub
     networks:
       - default
 
