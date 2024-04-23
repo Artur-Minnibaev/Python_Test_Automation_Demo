@@ -23,26 +23,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: setup Python
+
+      - name: Setup Python
         uses: actions/setup-python@v3
         with:
           python-version: "3.11"
-      - name: install chrome
+
+      - name: Install chrome
         run: sudo apt-get install google-chrome-stable
-      - name: install dependencies
+
+      - name: Build & Push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v4
+        with:
+            image: arturminnibaev/python_test_automation_demo
+            registry: docker.io
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: ui tests
+
+      - name: UI tests
         if: "github.event.inputs.deployment_target == 'ui_tests'"
         run: pytest tests/ui_tests --alluredir=allure-results
         continue-on-error: true
-      - name: db tests
+
+      - name: DB tests
         if: "github.event.inputs.deployment_target == 'db_tests'"
         run: pytest tests/integration --alluredir=allure-results
-      - name: api tests
+
+      - name: API tests
         if: "github.event.inputs.deployment_target == 'api_tests'"
         run: pytest tests/api/test_account.py --alluredir=allure-results
+
       - name: Store allure-results
         uses: actions/upload-artifact@v4
         with:
@@ -54,7 +69,7 @@ jobs:
   generate-report:
     runs-on: ubuntu-latest
     needs: test
-    name: generate report
+    name: Generate report
 
     steps:
       - uses: actions/setup-java@v4
@@ -62,9 +77,11 @@ jobs:
           distribution: 'microsoft' # See 'Supported distributions' for available options
           java-version: "21"
       - run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz && sudo tar -zxvf allure-2.27.0.tgz -C /opt/ && sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
+
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v4
       - run: allure generate -c allure-results -o _site
+
       - name: Store generated report
         uses: actions/upload-artifact@v4
         with:
@@ -82,8 +99,10 @@ jobs:
     steps:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v4
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
