@@ -1,4 +1,4 @@
-name: ci
+name: automated_tests
 
 on:
   workflow_dispatch:
