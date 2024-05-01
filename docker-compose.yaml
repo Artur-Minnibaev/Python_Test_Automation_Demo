@@ -22,6 +22,12 @@ services:
     environment:
       - HUB_HOST=selenium-hub
       - HUB_PORT=4444
+    healthcheck:
+      test: curl --fail http://chrome:4444/wd/hub || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   all-tests:
     image: all-tests:v1
@@ -30,11 +36,11 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/usr/Python_Test_Automation_Demo
-    command:  /bin/sh -c "pytest -sv tests/ui_tests/test_block_elements.py --alluredir=allure-results"
+    command:  pytest -sv tests/ui_tests/test_block_elements.py --alluredir=allure-results
     working_dir: /usr/Python_Test_Automation_Demo
     depends_on:
-      - chrome
-      - selenium-hub
+      chrome:
+        condition: service_healthy
     networks:
       - default
 

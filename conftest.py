@@ -12,8 +12,10 @@ HOST = config.config.HOST
 @pytest.fixture(scope="session", autouse=True)
 def browser():
     chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable - blink - features = AutomationControlled')
     # Note: Please specify your chromedriver local path here:
     driver = webdriver.Remote(
         command_executor='http://chrome:4444/wd/hub',
