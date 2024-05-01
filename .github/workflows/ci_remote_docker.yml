@@ -17,6 +17,11 @@ jobs:
 
     steps:
 
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11"
+
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
@@ -28,8 +33,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and run containers
-        run: docker-compose -f docker-compose.yml up -d --wait
+      - name: Build docker-compose
+        run: docker-compose -f docker-compose.yml up build
+
+      - name: Run docker-compose
+        run: |
+          docker-compose -f docker-compose.yml up -d
+          docker-compose -f docker-compose.yml ps
+          sleep 15
+
+      - name: Run tests
+        run: docker-compose -f docker-compose.yml run all-tests
 
       - name: Shutdown containers
         run: docker-compose -f docker-compose.yml down
