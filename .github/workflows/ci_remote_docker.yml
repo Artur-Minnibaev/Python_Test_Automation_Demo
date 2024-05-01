@@ -1,7 +1,14 @@
 name: Build and Publish Docker Images
 
 on:
-  label
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   test:
