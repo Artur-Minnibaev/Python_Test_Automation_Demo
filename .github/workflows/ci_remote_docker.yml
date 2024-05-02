@@ -29,19 +29,19 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build docker-compose
-        run: docker-compose -f docker-compose.yaml build
+        run: docker-compose -f docker-compose.yml build
 
       - name: Run docker-compose
         run: |
-          docker-compose -f docker-compose.yaml up -d
+          docker-compose -f docker-compose.yml up -d
           sleep 15
 
       - name: Run tests
-        run: docker-compose -f docker-compose.yaml run all-tests
+        run: docker-compose -f docker-compose.yml run all-tests
         continue-on-error: true
 
       - name: Shutdown containers
-        run: docker-compose -f docker-compose.yaml down
+        run: docker-compose -f docker-compose.yml down
 
   generate-report:
     runs-on: ubuntu-latest
