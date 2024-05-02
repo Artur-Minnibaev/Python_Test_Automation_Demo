@@ -36,7 +36,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/usr/Python_Test_Automation_Demo
-    command:  pytest -sv tests/ui_tests/test_block_elements.py --alluredir=allure-results
+    command:  pytest -sv tests --alluredir=allure-results
     working_dir: /usr/Python_Test_Automation_Demo
     depends_on:
       chrome:
