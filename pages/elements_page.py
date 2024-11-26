@@ -1,7 +1,5 @@
 import random
-
 import allure
-
 from pages.base_page import BasePage
 from locators.elements_page_locators import *
 from generator.generator import generated_person

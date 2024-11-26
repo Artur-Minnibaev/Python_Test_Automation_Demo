@@ -16,14 +16,14 @@ class BasePage:
         self.base_url_web_table = config.url_web_table
 
     @allure.step("Search an element")
-    def find_element(self, locator, time=10):
-        return WebDriverWait(self.driver, time).until(EC.presence_of_element_located(locator),
-                                                      message=f"Can't find elements by locator {locator}")
+    def find_element(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator),
+                                                         message=f"Can't find elements by locator {locator}")
 
     @allure.step("Search elements")
-    def find_elements(self, locator, time=10):
-        return WebDriverWait(self.driver, time).until(EC.presence_of_all_elements_located(locator),
-                                                      message=f"Can't find elements by locator {locator}")
+    def find_elements(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator),
+                                                         message=f"Can't find elements by locator {locator}")
 
     @allure.step("Search an element")
     def element_is_visible(self, locator, timeout=5):
