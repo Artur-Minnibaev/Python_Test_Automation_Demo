@@ -42,6 +42,7 @@ class TestElements:
             # Test of comparison input data and output data results using toggle dropdown list
             browser.refresh()
             checkbox_page = CheckBoxPage(browser)
+            checkbox_page.open_page_checkbox()
             checkbox_page.open_full_list_with_expand_all_button()
             checkbox_page.select_particular_element()
             input_result = checkbox_page.get_checked_box()

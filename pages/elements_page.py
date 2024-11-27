@@ -102,6 +102,7 @@ class CheckBoxPage(BasePage):
         checked_list = self.elements_are_present(self.locator.LOCATOR_CHECKED_ITEMS)
         data = []
         for box in checked_list:
+            # find DOM-element using XPATH by method .//ancestor
             title_item = box.find_element(By.XPATH, self.locator.LOCATOR_TITLE_ITEM)
             data.append(title_item.text)
         return str(data).replace(' ', '').replace('.doc', '').lower()
