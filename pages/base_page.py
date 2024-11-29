@@ -57,9 +57,37 @@ class BasePage:
 
     @allure.step("Remove extra elements")
     def remove_extra_elements(self):
-        self.driver.execute_script("document.getElementsByTagName('div')[4].remove();")
-        self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")
-        self.driver.execute_script("document.getElementById('fixedban').style.display='none';")
+        try:
+            self.driver.execute_script("""
+                    // Remove the 4th <div> (if it exists)
+                    var divToRemove = document.getElementsByTagName('div')[4];
+                    if (divToRemove) {
+                        divToRemove.remove();
+                        console.log("The 4th <div> has been removed.");
+                    } else {
+                        console.log("The 4th <div> was not found.");
+                    }
+
+                    // Remove the <footer> element (if it exists)
+                    var footerToRemove = document.getElementsByTagName('footer')[0];
+                    if (footerToRemove) {
+                        footerToRemove.remove();
+                        console.log("<footer> has been removed.");
+                    } else {
+                        console.log("<footer> was not found.");
+                    }
+
+                    // Remove the element with id='fixedban' (if it exists)
+                    var fixedBan = document.getElementById('fixedban');
+                    if (fixedBan) {
+                        fixedBan.remove();
+                        console.log("The element with id='fixedban' has been removed.");
+                    } else {
+                        console.log("The element with id='fixedban' was not found.");
+                    }
+                """)
+        except Exception as e:
+            print(f"Error while removing elements: {e}")
 
     @allure.step("Go to an element")
     def go_to_element(self, element):
