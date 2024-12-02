@@ -161,8 +161,6 @@ class WebTablePage(BasePage):
                 self.element_is_visible(self.locator.LOCATOR_AGE).send_keys(age)
                 self.element_is_visible(self.locator.LOCATOR_SALARY).send_keys(salary)
                 self.element_is_visible(self.locator.LOCATOR_DEPARTMENT).send_keys(department)
-            with allure.step('click on the submit button'):
-                self.element_is_visible(self.locator.LOCATOR_SUBMIT).click()
             count -= 1
             return [firstname, lastname, str(age), email, str(salary), department]
 
@@ -178,25 +176,17 @@ class WebTablePage(BasePage):
     @allure.step("Close pop-up")
     def close_pop_up(self):
         """Closing a pop-up without adding a new person to the list"""
-        count = 1
-        while count != 0:
-            person_info = next(generated_person())
-            firstname = person_info.firstname
-            lastname = person_info.lastname
-            email = person_info.email
-            age = person_info.age
-            salary = person_info.salary
-            department = person_info.department
-            with allure.step('open form of adding a new person'):
-                self.element_is_visible(self.locator.LOCATOR_ADD_BUTTON).click()
-            with allure.step('filling fields'):
-                self.element_is_visible(self.locator.LOCATOR_FIRST_NAME).send_keys(firstname)
-                self.element_is_visible(self.locator.LOCATOR_LAST_NAME).send_keys(lastname)
-                self.element_is_visible(self.locator.LOCATOR_EMAIL).send_keys(email)
-                self.element_is_visible(self.locator.LOCATOR_AGE).send_keys(age)
-                self.element_is_visible(self.locator.LOCATOR_SALARY).send_keys(salary)
-                self.element_is_visible(self.locator.LOCATOR_DEPARTMENT).send_keys(department)
-            with allure.step('click on the submit button'):
-                self.element_is_visible(self.locator.LOCATOR_CLOSE_BUTTON_POP_UP).click()
-            count -= 1
-            return [firstname, lastname, str(age), email, str(salary), department]
+        self.element_is_visible(self.locator.LOCATOR_CLOSE_BUTTON_POP_UP).click()
+
+    @allure.step("Submit button")
+    def submit_button(self):
+        """Click on the 'Submit' button"""
+        self.element_is_visible(self.locator.LOCATOR_SUBMIT).click()
+
+    def search_person(self, key_word):
+        self.element_is_visible(self.locator.LOCATOR_SEARCH_FIELD).send_keys(key_word)
+
+    def check_existing_person(self):
+        delete_button = self.element_is_present(self.locator.LOCATOR_DELETE_PERSON)
+        row = delete_button.find_element(By.XPATH, self.locator.LOCATOR_ROW_PARENT)
+        return row.text.splitlines()

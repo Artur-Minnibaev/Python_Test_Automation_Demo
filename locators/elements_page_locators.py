@@ -51,3 +51,6 @@ class WebTablePageLocators:
 
     # searching person
     LOCATOR_FULL_PERSON_LIST = (By.CSS_SELECTOR, "div[class='rt-tr-group']")
+    LOCATOR_SEARCH_FIELD = (By.CSS_SELECTOR, "input[id='searchBox']")
+    LOCATOR_DELETE_PERSON = (By.CSS_SELECTOR, "span[title='Delete']")
+    LOCATOR_ROW_PARENT = ".//ancestor::div[@class='rt-tr-group']"

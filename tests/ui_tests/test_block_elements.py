@@ -1,9 +1,11 @@
-import allure
+import random
 
+import allure
 from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
 from pages.elements_page import RadioButtonPage
 from pages.elements_page import WebTablePage
+from conftest import browser
 
 
 @allure.suite("Elements")
@@ -107,6 +109,7 @@ class TestElements:
             web_table_page = WebTablePage(browser)
             web_table_page.open_page_web_table()
             input_data = web_table_page.add_new_person()
+            web_table_page.submit_button()
             output_data = web_table_page.check_added_new_person()
             assert input_data in output_data, "[FAIL]Data is empty"
 
@@ -114,6 +117,17 @@ class TestElements:
         def test_closing_pop_up(self, browser):
             # Test of adding a person without clicking the "Submit" button
             web_table_page = WebTablePage(browser)
-            input_data = web_table_page.close_pop_up()
+            web_table_page.open_page_web_table()
+            input_data = web_table_page.add_new_person()
+            web_table_page.close_pop_up()
             output_data = web_table_page.check_added_new_person()
             assert input_data not in output_data, "[FAIL]Data exists"
+
+        def test_searching_person_in_the_table(self, browser):
+            web_table_page = WebTablePage(browser)
+            web_table_page.open_page_web_table()
+            key_word = web_table_page.add_new_person()[random.randint(0, 5)]
+            web_table_page.submit_button()
+            web_table_page.search_person(key_word)
+            output_result = web_table_page.check_existing_person()
+            assert key_word in output_result, "[FAIL]Person not exist"
