@@ -6,7 +6,6 @@ from generator.generator import generated_person
 
 
 class TextBoxPage(BasePage):
-
     locators = TextBoxPageLocators()
 
     @allure.step("Filling in all fields")
@@ -37,7 +36,6 @@ class TextBoxPage(BasePage):
 
 
 class CheckBoxPage(BasePage):
-
     locator = CheckBoxPageLocators()
 
     @allure.step("Open full list")
@@ -118,7 +116,6 @@ class CheckBoxPage(BasePage):
 
 
 class RadioButtonPage(BasePage):
-
     locator = RadioButtonPageLocators()
 
     @allure.step("Click on the radiobutton")
@@ -137,7 +134,6 @@ class RadioButtonPage(BasePage):
 
 
 class WebTablePage(BasePage):
-
     locator = WebTablePageLocators()
 
     @allure.step("Add a new person")
@@ -183,10 +179,63 @@ class WebTablePage(BasePage):
         """Click on the 'Submit' button"""
         self.element_is_visible(self.locator.LOCATOR_SUBMIT).click()
 
+    @allure.step("Search person")
     def search_person(self, key_word):
+        self.element_is_visible(self.locator.LOCATOR_SEARCH_FIELD).clear()
         self.element_is_visible(self.locator.LOCATOR_SEARCH_FIELD).send_keys(key_word)
 
+    @allure.step("Check of existing person")
     def check_existing_person(self):
         delete_button = self.element_is_present(self.locator.LOCATOR_DELETE_PERSON)
         row = delete_button.find_element(By.XPATH, self.locator.LOCATOR_ROW_PARENT)
         return row.text.splitlines()
+
+    @allure.step("Edit button")
+    def edit_button(self):
+        self.element_is_visible(self.locator.LOCATOR_UPDATE_PERSON).click()
+
+    @allure.step("Update personal info")
+    def update_person_info(self):
+        # Mapping data fields to locators
+        locator_map = {
+            "firstname": self.locator.LOCATOR_FIRST_NAME,
+            "lastname": self.locator.LOCATOR_LAST_NAME,
+            "email": self.locator.LOCATOR_EMAIL,
+            "age": self.locator.LOCATOR_AGE,
+            "salary": self.locator.LOCATOR_SALARY,
+            "department": self.locator.LOCATOR_DEPARTMENT
+        }
+        # Generate data for update
+        person_info = next(generated_person())
+        data = {
+            "firstname": person_info.firstname,
+            "lastname": person_info.lastname,
+            "email": person_info.email,
+            "age": person_info.age,
+            "salary": person_info.salary,
+            "department": person_info.department
+        }
+
+        # Select a random field
+        random_field = random.choice(list(data.keys()))
+        random_value = data[random_field]
+        field_locator = locator_map.get(random_field)
+
+        # Check for existence of locator
+        if field_locator is None:
+            print(f"Locator for field {random_field} not found!")
+
+        random_value_str = str(random_value)
+
+        # Comparison and pass the unpacked field_locator and random_value
+        if self.element_is_visible(field_locator):
+            try:
+                print(f"Updating field '{random_field}' with value '{random_value}' at locator '{field_locator}'")
+                element = self.find_element(field_locator)
+                element.clear()
+                element.send_keys(random_value_str)
+                return random_value_str
+            except Exception as e:
+                raise RuntimeError(f"Error updating field '{random_field}': {e}")
+        else:
+            raise RuntimeError(f"Field '{random_field}' is not visible")
