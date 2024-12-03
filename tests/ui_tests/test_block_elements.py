@@ -1,11 +1,10 @@
 import random
-
+import time
 import allure
 from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
 from pages.elements_page import RadioButtonPage
 from pages.elements_page import WebTablePage
-from conftest import browser
 
 
 @allure.suite("Elements")
@@ -123,11 +122,35 @@ class TestElements:
             output_data = web_table_page.check_added_new_person()
             assert input_data not in output_data, "[FAIL]Data exists"
 
+        @allure.title('Test of searching a person after its adding')
         def test_searching_person_in_the_table(self, browser):
+            # Test of searching a person after it's adding
             web_table_page = WebTablePage(browser)
             web_table_page.open_page_web_table()
             key_word = web_table_page.add_new_person()[random.randint(0, 5)]
             web_table_page.submit_button()
             web_table_page.search_person(key_word)
             output_result = web_table_page.check_existing_person()
-            assert key_word in output_result, "[FAIL]Person not exist"
+            assert key_word in output_result, "[FAIL]Person does not exist"
+
+        @allure.tittle('Test of updating random information of person')
+        def test_update_information_of_person(self, browser):
+            # Test of updating an information of person
+            web_table_page = WebTablePage(browser)
+            web_table_page.open_page_web_table()
+            key_word = web_table_page.add_new_person()[0]
+            web_table_page.submit_button()
+            web_table_page.search_person(key_word)
+            web_table_page.edit_button()
+            new_value = web_table_page.update_person_info()
+            web_table_page.submit_button()
+            assert new_value is not None, "Updated value is None"
+
+            time.sleep(5)
+
+            web_table_page.search_person(new_value)
+            output_result = web_table_page.check_existing_person()
+            assert new_value in output_result, "[FAIL]Updated info does not exist"
+
+
+
