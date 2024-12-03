@@ -5,7 +5,7 @@ from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
 from pages.elements_page import RadioButtonPage
 from pages.elements_page import WebTablePage
-
+from conftest import browser
 
 @allure.suite("Elements")
 class TestElements:
@@ -133,7 +133,7 @@ class TestElements:
             output_result = web_table_page.check_existing_person()
             assert key_word in output_result, "[FAIL]Person does not exist"
 
-        @allure.tittle('Test of updating random information of person')
+        @allure.title('Test of updating random information of person')
         def test_update_information_of_person(self, browser):
             # Test of updating an information of person
             web_table_page = WebTablePage(browser)
