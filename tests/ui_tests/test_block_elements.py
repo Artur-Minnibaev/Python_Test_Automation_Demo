@@ -110,6 +110,9 @@ class TestElements:
             input_data = web_table_page.add_new_person()
             web_table_page.submit_button()
             output_data = web_table_page.check_added_new_person()
+
+            time.sleep(5)
+
             assert input_data in output_data, "[FAIL]Data is empty"
 
         @allure.title('Test of adding a person without clicking the "Submit" button')
@@ -152,5 +155,20 @@ class TestElements:
             output_result = web_table_page.check_existing_person()
             assert new_value in output_result, "[FAIL]Updated info does not exist"
 
+        def test_of_deleting_person(self, browser):
+            web_table_page = WebTablePage(browser)
+            web_table_page.open_page_web_table()
+            key_word = web_table_page.add_new_person()[0]
+            web_table_page.submit_button()
+            web_table_page.search_person(key_word)
+            web_table_page.delete_button()
+            output_result = web_table_page.search_person(key_word)
+            check_deleted = web_table_page.check_deleted()
+            assert output_result is None, "[FAIL]Person still exists"
+            assert check_deleted == "No rows found", "[FAIL]Person still exists"
 
-
+        def test_web_table_change_count_row(self, browser):
+            web_table_page = WebTablePage(browser)
+            web_table_page.open_page_web_table()
+            count = web_table_page.select_up_to_some_rows()
+            assert count == [5, 10, 20, 25, 50, 100], "[FAIL]The number of rows does not change"

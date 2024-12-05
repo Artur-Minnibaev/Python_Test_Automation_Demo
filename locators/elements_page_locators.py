@@ -54,6 +54,11 @@ class WebTablePageLocators:
     LOCATOR_SEARCH_FIELD = (By.CSS_SELECTOR, "input[id='searchBox']")
     LOCATOR_DELETE_PERSON = (By.CSS_SELECTOR, "span[title='Delete']")
     LOCATOR_ROW_PARENT = ".//ancestor::div[@class='rt-tr-group']"
+    LOCATOR_COUNT_ROW_LISTS = (By.CSS_SELECTOR, "select[aria-label='rows per page']")
 
     # update information
     LOCATOR_UPDATE_PERSON = (By.CSS_SELECTOR, "span[title='Edit']")
+
+    # delete person
+    LOCATOR_DELETE_PERSON = (By.CSS_SELECTOR, "span[title='Delete']")
+    LOCATOR_CHECK_DELETED = (By.CSS_SELECTOR, "div[class='rt-noData']")
