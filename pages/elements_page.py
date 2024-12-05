@@ -194,6 +194,12 @@ class WebTablePage(BasePage):
     def edit_button(self):
         self.element_is_visible(self.locator.LOCATOR_UPDATE_PERSON).click()
 
+    def delete_button(self):
+        self.element_is_present(self.locator.LOCATOR_DELETE_PERSON).click()
+
+    def check_deleted(self):
+        return self.element_is_visible(self.locator.LOCATOR_CHECK_DELETED).text
+
     @allure.step("Update personal info")
     def update_person_info(self):
         # Mapping data fields to locators
@@ -239,3 +245,20 @@ class WebTablePage(BasePage):
                 raise RuntimeError(f"Error updating field '{random_field}': {e}")
         else:
             raise RuntimeError(f"Field '{random_field}' is not visible")
+
+    def select_up_to_some_rows(self):
+        count = [5, 10, 20, 25, 50, 100]
+        data = []
+        for x in count:
+            count_row_button = self.element_is_visible(self.locator.LOCATOR_COUNT_ROW_LISTS)
+            self.go_to_element(count_row_button)
+            count_row_button.click()
+            self.element_is_visible((By.CSS_SELECTOR, f"option[value='{x}']")).click()
+            data.append(self.check_count_rows())
+        return data
+
+    def check_count_rows(self):
+        list_rows = self.elements_are_present(self.locator.LOCATOR_FULL_PERSON_LIST)
+        return len(list_rows)
+
+
