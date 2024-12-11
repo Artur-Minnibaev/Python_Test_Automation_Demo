@@ -262,3 +262,31 @@ class WebTablePage(BasePage):
         return len(list_rows)
 
 
+class WebButtonsPage(BasePage):
+    locator = ButtonsPageLocators()
+
+    def double_click(self):
+        """Perform double-click action on the button"""
+        return self.action_double_click(self.element_is_visible(self.locator.LOCATOR_DOUBLE_CLICK_BUTTON))
+
+    def right_click(self):
+        """Perform right-click action on the button"""
+        return self.action_right_click(self.element_is_visible(self.locator.LOCATOR_RIGHT_CLICK_BUTTON))
+
+    def single_click(self):
+        """Perform single-click action on the button"""
+        return self.action_click(self.element_is_visible(self.locator.LOCATOR_SINGLE_CLICK_BUTTON))
+
+    def check_results(self, action_click):
+        """Check the result text based on the performed action."""
+        if action_click == "double_click":
+            return self.element_is_present(self.locator.LOCATOR_DOUBLE_CLICK).text
+
+        elif action_click == "right_click":
+            return self.element_is_present(self.locator.LOCATOR_RIGHT_CLICK).text
+
+        elif action_click == "single_click":
+            return self.element_is_present(self.locator.LOCATOR_SINGLE_CLICK).text
+
+
+
