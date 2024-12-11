@@ -62,3 +62,16 @@ class WebTablePageLocators:
     # delete person
     LOCATOR_DELETE_PERSON = (By.CSS_SELECTOR, "span[title='Delete']")
     LOCATOR_CHECK_DELETED = (By.CSS_SELECTOR, "div[class='rt-noData']")
+
+
+class ButtonsPageLocators:
+    """Description of using locators"""
+    # buttons
+    LOCATOR_DOUBLE_CLICK_BUTTON = (By.CSS_SELECTOR, "button[id='doubleClickBtn']")
+    LOCATOR_RIGHT_CLICK_BUTTON = (By.CSS_SELECTOR, "button[id='rightClickBtn']")
+    LOCATOR_SINGLE_CLICK_BUTTON = (By.XPATH, "//div[3]/button")
+
+    # result messages
+    LOCATOR_DOUBLE_CLICK = (By.CSS_SELECTOR, "p[id='doubleClickMessage']")
+    LOCATOR_RIGHT_CLICK = (By.CSS_SELECTOR, "p[id='rightClickMessage']")
+    LOCATOR_SINGLE_CLICK = (By.CSS_SELECTOR, "p[id='dynamicClickMessage']")

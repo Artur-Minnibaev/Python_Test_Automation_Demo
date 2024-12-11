@@ -5,7 +5,8 @@ from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
 from pages.elements_page import RadioButtonPage
 from pages.elements_page import WebTablePage
-from conftest import browser
+from pages.elements_page import WebButtonsPage
+
 
 @allure.suite("Elements")
 class TestElements:
@@ -155,7 +156,9 @@ class TestElements:
             output_result = web_table_page.check_existing_person()
             assert new_value in output_result, "[FAIL]Updated info does not exist"
 
+        @allure.title('Test of deleting a person from the list')
         def test_of_deleting_person(self, browser):
+            # Test of deleting a person from the list
             web_table_page = WebTablePage(browser)
             web_table_page.open_page_web_table()
             key_word = web_table_page.add_new_person()[0]
@@ -167,8 +170,35 @@ class TestElements:
             assert output_result is None, "[FAIL]Person still exists"
             assert check_deleted == "No rows found", "[FAIL]Person still exists"
 
+        @allure.title('Test of choosing various rows in the table')
         def test_web_table_change_count_row(self, browser):
+            # Test of choosing various rows in the table
             web_table_page = WebTablePage(browser)
             web_table_page.open_page_web_table()
             count = web_table_page.select_up_to_some_rows()
             assert count == [5, 10, 20, 25, 50, 100], "[FAIL]The number of rows does not change"
+
+    class TestButtonsPage:
+        @allure.title('Test of double click on the button')
+        def test_double_click(self, browser):
+            web_buttons_page = WebButtonsPage(browser)
+            web_buttons_page.open_page_buttons()
+            web_buttons_page.double_click()
+            result = web_buttons_page.check_results('double_click')
+            assert result == 'You have done a double click'
+
+        @allure.title('Test of RMB on the button')
+        def test_right_click(self, browser):
+            web_buttons_page = WebButtonsPage(browser)
+            web_buttons_page.open_page_buttons()
+            web_buttons_page.right_click()
+            result = web_buttons_page.check_results('right_click')
+            assert result == 'You have done a right click'
+
+        @allure.title('Test of single click on the button')
+        def test_single_click(self, browser):
+            web_buttons_page = WebButtonsPage(browser)
+            web_buttons_page.open_page_buttons()
+            web_buttons_page.single_click()
+            result = web_buttons_page.check_results('single_click')
+            assert result == 'You have done a dynamic click'

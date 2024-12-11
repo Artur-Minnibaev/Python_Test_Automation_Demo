@@ -2,6 +2,7 @@ import allure
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from config import config
+from selenium.webdriver import ActionChains
 
 
 class BasePage:
@@ -14,6 +15,7 @@ class BasePage:
         self.base_url_checkbox = config.url_checkbox
         self.base_url_radio_button = config.url_radio_button
         self.base_url_web_table = config.url_web_table
+        self.base_url_buttons = config.url_buttons
 
     @allure.step("Search an element")
     def find_element(self, locator, timeout=10):
@@ -116,3 +118,21 @@ class BasePage:
     @allure.step("Open WebTable page")
     def open_page_web_table(self):
         return self.driver.get(self.base_url_web_table)
+
+    def open_page_buttons(self):
+        return self.driver.get(self.base_url_buttons)
+
+    def action_double_click(self, element):
+        action = ActionChains(self.driver)
+        action.double_click(element)
+        action.perform()
+
+    def action_right_click(self, element):
+        action = ActionChains(self.driver)
+        action.context_click(element)
+        action.perform()
+
+    def action_click(self, element):
+        action = ActionChains(self.driver)
+        action.click(element)
+        action.perform()
