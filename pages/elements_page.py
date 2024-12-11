@@ -287,6 +287,3 @@ class WebButtonsPage(BasePage):
 
         elif action_click == "single_click":
             return self.element_is_present(self.locator.LOCATOR_SINGLE_CLICK).text
-
-
-

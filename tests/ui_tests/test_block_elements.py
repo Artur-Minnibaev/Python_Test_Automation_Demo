@@ -1,11 +1,14 @@
 import random
 import time
 import allure
+import pytest
+
 from pages.elements_page import TextBoxPage
 from pages.elements_page import CheckBoxPage
 from pages.elements_page import RadioButtonPage
 from pages.elements_page import WebTablePage
 from pages.elements_page import WebButtonsPage
+from unittest.mock import MagicMock
 
 
 @allure.suite("Elements")
@@ -202,3 +205,51 @@ class TestElements:
             web_buttons_page.single_click()
             result = web_buttons_page.check_results('single_click')
             assert result == 'You have done a dynamic click'
+
+    @pytest.mark.skip(reason="Mock tests")
+    @allure.feature('Mock tests')
+    class TestMock:
+        @allure.title('Test of double click on the button using mock')
+        def test_double_click_with_mock(self, browser):
+            web_buttons_page = WebButtonsPage(browser)
+            web_buttons_page.open_page_buttons()
+            # using mock for button as well
+            # web_buttons_page.double_click = MagicMock(name="double_click_mock")
+            web_buttons_page.double_click = MagicMock(side_effect=web_buttons_page.double_click)
+            web_buttons_page.check_results = MagicMock(return_value="You have done a double click")
+            web_buttons_page.double_click()
+            result = web_buttons_page.check_results("double_click")
+            web_buttons_page.double_click.assert_called_once()
+            web_buttons_page.check_results.assert_called_once_with("double_click")
+            assert result == "You have done a double click", "[FAIL]Output does not match"
+            print(f"Output: {result}")
+
+        @allure.title('Test of right click on the button using mock')
+        def test_right_click_with_mock(self, browser):
+            web_buttons_page = WebButtonsPage(browser)
+            web_buttons_page.open_page_buttons()
+            # using mock for button as well
+            # web_buttons_page.double_click = MagicMock(name="right_click_mock")
+            web_buttons_page.right_click = MagicMock(side_effect=web_buttons_page.right_click)
+            web_buttons_page.check_results = MagicMock(return_value="You have done a right click")
+            web_buttons_page.right_click()
+            result = web_buttons_page.check_results("right_click")
+            web_buttons_page.right_click.assert_called_once()
+            web_buttons_page.check_results.assert_called_once_with("right_click")
+            assert result == "You have done a right click", "[FAIL]Output does not match"
+            print(f"Output: {result}")
+
+        @allure.title('Test of single click on the button using mock')
+        def test_single_click_with_mock(self, browser):
+            web_buttons_page = WebButtonsPage(browser)
+            web_buttons_page.open_page_buttons()
+            # using mock for button as well
+            # web_buttons_page.double_click = MagicMock(name="single_click_mock")
+            web_buttons_page.single_click = MagicMock(side_effect=web_buttons_page.single_click)
+            web_buttons_page.check_results = MagicMock(return_value="You have done a dynamic click")
+            web_buttons_page.single_click()
+            result = web_buttons_page.check_results("single_click")
+            web_buttons_page.single_click.assert_called_once()
+            web_buttons_page.check_results.assert_called_once_with("single_click")
+            assert result == "You have done a dynamic click", "[FAIL]Output does not match"
+            print(f"Output: {result}")
