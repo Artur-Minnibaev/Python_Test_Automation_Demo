@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, Field
 
 
 class Books(BaseModel):
@@ -12,7 +12,8 @@ class Books(BaseModel):
 
 
 class AccountModel(BaseModel):
-    userID: str
+    userID: str = Field(None, alias='userID')
+    userId: str = Field(None, alias="userId")
     username: str
     books: list[Books]
 
@@ -22,3 +23,7 @@ class AccountModel(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+
+    @property
+    def normalized_user_id(self):
+        return self.userID or self.userId
