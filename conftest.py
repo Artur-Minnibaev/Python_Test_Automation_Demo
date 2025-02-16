@@ -19,39 +19,39 @@ from services.db.parser import log_in
 HOST = config.config.HOST
 
 
-@pytest.fixture(scope="session", autouse=True)
-def browser():
-    """Set up Chrome through Selenium Grid"""
-    chrome_options = webdriver.ChromeOptions()
-    # chrome_options.add_argument('--headless=new')
-    chrome_options.set_capability("browserName", "chrome")
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument('--disable-features=NetworkService')
-
-    max_attempts = 10
-    for attempt in range(max_attempts):
-        try:
-            driver = webdriver.Remote(
-                command_executor='http://selenium-hub:4444/wd/hub',
-                options=chrome_options,
-            )
-            driver.set_page_load_timeout(120)
-            driver.set_script_timeout(120)
-            print("[INFO] Selenium Grid is ready!")
-            break
-        except Exception as e:
-            print(f"[WARNING] Selenium Grid still not ready. Attempt {attempt+1}/{max_attempts}")
-            time.sleep(5)
-    else:
-        pytest.exit("[FAIL] Unsuccessful connection to Selenium Grid!")
-
-    yield driver
-
-    attach = driver.get_screenshot_as_png()
-    allure.attach(attach, name=f"Screenshot {datetime.today()}", attachment_type=allure.attachment_type.PNG)
-
-    driver.quit()
+# @pytest.fixture(scope="session", autouse=True)
+# def browser():
+#     """Set up Chrome through Selenium Grid"""
+#     chrome_options = webdriver.ChromeOptions()
+#     # chrome_options.add_argument('--headless=new')
+#     chrome_options.set_capability("browserName", "chrome")
+#     chrome_options.add_argument('--no-sandbox')
+#     chrome_options.add_argument("--disable-dev-shm-usage")
+#     chrome_options.add_argument('--disable-features=NetworkService')
+#
+#     max_attempts = 10
+#     for attempt in range(max_attempts):
+#         try:
+#             driver = webdriver.Remote(
+#                 command_executor='http://selenium-hub:4444/wd/hub',
+#                 options=chrome_options,
+#             )
+#             driver.set_page_load_timeout(120)
+#             driver.set_script_timeout(120)
+#             print("[INFO] Selenium Grid is ready!")
+#             break
+#         except Exception as e:
+#             print(f"[WARNING] Selenium Grid still not ready. Attempt {attempt+1}/{max_attempts}")
+#             time.sleep(5)
+#     else:
+#         pytest.exit("[FAIL] Unsuccessful connection to Selenium Grid!")
+#
+#     yield driver
+#
+#     attach = driver.get_screenshot_as_png()
+#     allure.attach(attach, name=f"Screenshot {datetime.today()}", attachment_type=allure.attachment_type.PNG)
+#
+#     driver.quit()
 
 # @pytest.fixture(scope="session", autouse=True)
 # def browser():
@@ -67,27 +67,27 @@ def browser():
 #     driver.quit()
 
 
-# # Additionally generator for local testing
-# @pytest.fixture(scope="session", autouse=True)
-# def chrome_browser():
-#     chromedriver_path = chromedriver_autoinstaller.install()
-#     options = webdriver.ChromeOptions()
-#     options.add_argument("--start-maximized")
-#     # options.add_argument("--headless")
-#     service = Service(chromedriver_path)
-#     driver = webdriver.Chrome(service=service, options=options)
-#     yield driver
-#     try:
-#         attach = driver.get_screenshot_as_png()
-#         allure.attach(
-#             attach,
-#             name=f"Screenshot {datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}",
-#             attachment_type=allure.attachment_type.PNG
-#         )
-#     except Exception as e:
-#         print(f"[FAIL]Attempt creating screenshot: {e}")
-#
-#     driver.quit()
+# Additionally generator for local testing
+@pytest.fixture(scope="session", autouse=True)
+def chrome_browser():
+    chromedriver_path = chromedriver_autoinstaller.install()
+    options = webdriver.ChromeOptions()
+    options.add_argument("--start-maximized")
+    # options.add_argument("--headless")
+    service = Service(chromedriver_path)
+    driver = webdriver.Chrome(service=service, options=options)
+    yield driver
+    try:
+        attach = driver.get_screenshot_as_png()
+        allure.attach(
+            attach,
+            name=f"Screenshot {datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}",
+            attachment_type=allure.attachment_type.PNG
+        )
+    except Exception as e:
+        print(f"[FAIL]Attempt creating screenshot: {e}")
+
+    driver.quit()
 
 
 @pytest.fixture(scope="session")

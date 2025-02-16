@@ -56,18 +56,29 @@ jobs:
           sudo apt-get install -y google-chrome-stable
           google-chrome --version
 
+      - name: Log Environment Variables
+        run: |
+          echo "Deployment Target: ${{ github.event.inputs.deployment_target }}"
+          echo "Run Mode: ${{ github.event.inputs.run_mode }}"
+
       # 🔹 Running tests LOCAL
       - name: UI tests
-        if: "github.event.inputs.run_mode == 'local' && github.event.inputs.deployment_target == 'ui_tests'"
-        run: pytest tests/ui_tests --alluredir=allure-results
+        if: github.event.inputs.run_mode == 'local' && github.event.inputs.deployment_target == 'ui_tests'
+        run: |
+          export RUN_MODE=local
+          pytest tests/ui_tests --alluredir=allure-results
 
       - name: Integration tests
-        if: "github.event.inputs.run_mode == 'local' && github.event.inputs.deployment_target == 'integration_tests'"
-        run: pytest tests/integration --alluredir=allure-results
+        if: github.event.inputs.run_mode == 'local' && github.event.inputs.deployment_target == 'integration_tests'
+        run: |
+          export RUN_MODE=local
+          pytest tests/integration --alluredir=allure-results
 
       - name: API tests
-        if: "github.event.inputs.run_mode == 'local' && github.event.inputs.deployment_target == 'api_tests'"
-        run: pytest tests/api --alluredir=allure-results
+        if: github.event.inputs.run_mode == 'local' && github.event.inputs.deployment_target == 'api_tests'
+        run: |
+          export RUN_MODE=local
+          pytest tests/api --alluredir=allure-results
 
       # 🔹 Docker mode
       - name: Login to Docker Hub
