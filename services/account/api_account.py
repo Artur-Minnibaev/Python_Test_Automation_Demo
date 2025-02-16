@@ -84,3 +84,16 @@ class AccountAPI(Helper):
         self.attach_response(response.json())
         model = AccountModel(**response.json())
         return model
+
+    @allure.step("Login user")
+    def login_user(self):
+        env_vars = dotenv_values(ENV_PATH)
+        response = requests.post(
+            url=self.endpoints.login_user,
+            headers=self.header.basic,
+            json={
+                "userName": env_vars.get("USERNAME"),
+                "password": env_vars.get("PASSWORD")
+            }
+        )
+        return response

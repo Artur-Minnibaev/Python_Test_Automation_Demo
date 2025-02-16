@@ -28,3 +28,8 @@ class TestAccount(BaseTest):
         user_id = uuid[0]
         response = self.api_account.get_user_by_id(user_id)
         assert response.normalized_user_id == user_id, "[FAIL]ID does not match"
+
+    @allure.title("Login user")
+    def test_login_user(self):
+        response_data = self.api_account.login_user()
+        assert response_data.status_code == 200, f"[FAIL]Incorrect request: {response_data.status_code}, {response_data.json()}"
