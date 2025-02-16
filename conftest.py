@@ -41,10 +41,10 @@ def browser():
             print("[INFO] Selenium Grid is ready!")
             break
         except Exception as e:
-            print(f"[WARNING] Selenium Grid ещё не готов. Попытка {attempt+1}/{max_attempts}")
+            print(f"[WARNING] Selenium Grid still not ready. Attempt {attempt+1}/{max_attempts}")
             time.sleep(5)
     else:
-        pytest.exit("[FAIL] Не удалось подключиться к Selenium Grid!")
+        pytest.exit("[FAIL] Unsuccessful connection to Selenium Grid!")
 
     yield driver
 
@@ -67,32 +67,32 @@ def browser():
 #     driver.quit()
 
 
-# Additionally generator for local testing
-@pytest.fixture(scope="session", autouse=True)
-def chrome_browser():
-    chromedriver_path = chromedriver_autoinstaller.install()
-    options = webdriver.ChromeOptions()
-    options.add_argument("--start-maximized")
-    # options.add_argument("--headless")
-    service = Service(chromedriver_path)
-    driver = webdriver.Chrome(service=service, options=options)
-    yield driver
-    try:
-        attach = driver.get_screenshot_as_png()
-        allure.attach(
-            attach,
-            name=f"Screenshot {datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}",
-            attachment_type=allure.attachment_type.PNG
-        )
-    except Exception as e:
-        print(f"[FAIL]Attempt creating screenshot: {e}")
-
-    driver.quit()
+# # Additionally generator for local testing
+# @pytest.fixture(scope="session", autouse=True)
+# def chrome_browser():
+#     chromedriver_path = chromedriver_autoinstaller.install()
+#     options = webdriver.ChromeOptions()
+#     options.add_argument("--start-maximized")
+#     # options.add_argument("--headless")
+#     service = Service(chromedriver_path)
+#     driver = webdriver.Chrome(service=service, options=options)
+#     yield driver
+#     try:
+#         attach = driver.get_screenshot_as_png()
+#         allure.attach(
+#             attach,
+#             name=f"Screenshot {datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}",
+#             attachment_type=allure.attachment_type.PNG
+#         )
+#     except Exception as e:
+#         print(f"[FAIL]Attempt creating screenshot: {e}")
+#
+#     driver.quit()
 
 
 @pytest.fixture(scope="session")
 def wait_for_db():
-    """Ждём, пока БД поднимется"""
+    """Wait, 'till BD up"""
     for _ in range(2):
         try:
             conn = psycopg2.connect(
