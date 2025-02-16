@@ -21,7 +21,9 @@ class LoginPage(BasePage):
 
     @allure.step("Click on the login button")
     def click_login_button(self):
-        return self.element_is_visible(locator.LOCATOR_BUTTON_LOGIN).click()
+        button = self.element_is_visible(locator.LOCATOR_BUTTON_LOGIN)
+        self.scroll_to_element(button)
+        self.element_is_clickable(locator.LOCATOR_BUTTON_LOGIN).click()
 
     @allure.step("Check title")
     def check_title(self):
@@ -30,4 +32,3 @@ class LoginPage(BasePage):
     @allure.step("Check main header")
     def check_main_header(self):
         return self.find_element(locator.LOCATOR_MAIN_HEADER)
-

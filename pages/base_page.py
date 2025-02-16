@@ -140,3 +140,6 @@ class BasePage:
         action = ActionChains(self.driver)
         action.click(element)
         action.perform()
+
+    def scroll_to_element(self, element):
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)

@@ -95,7 +95,7 @@ HOST = config.config.HOST
 def chrome_browser():
     chromedriver_path = chromedriver_autoinstaller.install()
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
 
     service = Service(chromedriver_path)
     driver = webdriver.Chrome(service=service, options=options)
