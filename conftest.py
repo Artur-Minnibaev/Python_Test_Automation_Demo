@@ -95,15 +95,7 @@ HOST = config.config.HOST
 def chrome_browser():
     chromedriver_path = chromedriver_autoinstaller.install()
     options = webdriver.ChromeOptions()
-    options.add_argument("--start-maximized")
-    options.add_argument("--disable-gpu")  # Отключаем GPU
-    options.add_argument("--no-first-run")  # Отключаем первый запуск Chrome
-    options.add_argument("--no-default-browser-check")  # Отключаем проверку браузера
-    options.add_argument("--disable-dev-shm-usage")  # Уменьшаем использование памяти в контейнере
-
-    # Используем временную директорию для профиля Chrome
-    temp_dir = tempfile.mkdtemp()
-    options.add_argument(f"--user-data-dir={temp_dir}")
+    options.add_argument("--headless")
 
     service = Service(chromedriver_path)
     driver = webdriver.Chrome(service=service, options=options)
@@ -118,7 +110,7 @@ def chrome_browser():
             attachment_type=allure.attachment_type.PNG
         )
     except Exception as e:
-        print(f"[FAIL] Attempt creating screenshot: {e}")
+        print(f"[FAIL] Ошибка при создании скриншота: {e}")
 
     driver.quit()
 
