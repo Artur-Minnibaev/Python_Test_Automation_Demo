@@ -67,16 +67,48 @@ HOST = config.config.HOST
 #     driver.quit()
 
 
+# # Additionally generator for local testing
+# @pytest.fixture(scope="session", autouse=True)
+# def chrome_browser():
+#     chromedriver_path = chromedriver_autoinstaller.install()
+#     options = webdriver.ChromeOptions()
+#     options.add_argument("--start-maximized")
+#     # options.add_argument("--headless")
+#     service = Service(chromedriver_path)
+#     driver = webdriver.Chrome(service=service, options=options)
+#     yield driver
+#     try:
+#         attach = driver.get_screenshot_as_png()
+#         allure.attach(
+#             attach,
+#             name=f"Screenshot {datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}",
+#             attachment_type=allure.attachment_type.PNG
+#         )
+#     except Exception as e:
+#         print(f"[FAIL]Attempt creating screenshot: {e}")
+#
+#     driver.quit()
+
 # Additionally generator for local testing
 @pytest.fixture(scope="session", autouse=True)
 def chrome_browser():
     chromedriver_path = chromedriver_autoinstaller.install()
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
-    # options.add_argument("--headless")
+    options.add_argument("--disable-gpu")  # <== 🔹 Отключаем GPU для стабильности
+    options.add_argument("--no-first-run")  # <== 🔹 Отключаем первый запуск Chrome
+    options.add_argument("--no-default-browser-check")  # <== 🔹 Отключаем проверку браузера
+    options.add_argument("--disable-dev-shm-usage")  # <== 🔹 Уменьшаем использование памяти в контейнере
+
+    # Используем уникальную папку для каждого теста
+    unique_profile = f"/tmp/chrome-profile-{datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}"
+    options.add_argument(f"--user-data-dir={unique_profile}")  # <== 🔹 Уникальная папка профиля
+
     service = Service(chromedriver_path)
     driver = webdriver.Chrome(service=service, options=options)
+
     yield driver
+
     try:
         attach = driver.get_screenshot_as_png()
         allure.attach(
@@ -85,7 +117,7 @@ def chrome_browser():
             attachment_type=allure.attachment_type.PNG
         )
     except Exception as e:
-        print(f"[FAIL]Attempt creating screenshot: {e}")
+        print(f"[FAIL] Attempt creating screenshot: {e}")
 
     driver.quit()
 
