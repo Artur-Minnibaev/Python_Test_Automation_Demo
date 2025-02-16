@@ -1,3 +1,4 @@
+import tempfile
 from datetime import datetime
 import allure
 import pytest
@@ -95,14 +96,14 @@ def chrome_browser():
     chromedriver_path = chromedriver_autoinstaller.install()
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
-    options.add_argument("--disable-gpu")  # <== 🔹 Отключаем GPU для стабильности
-    options.add_argument("--no-first-run")  # <== 🔹 Отключаем первый запуск Chrome
-    options.add_argument("--no-default-browser-check")  # <== 🔹 Отключаем проверку браузера
-    options.add_argument("--disable-dev-shm-usage")  # <== 🔹 Уменьшаем использование памяти в контейнере
+    options.add_argument("--disable-gpu")  # Отключаем GPU
+    options.add_argument("--no-first-run")  # Отключаем первый запуск Chrome
+    options.add_argument("--no-default-browser-check")  # Отключаем проверку браузера
+    options.add_argument("--disable-dev-shm-usage")  # Уменьшаем использование памяти в контейнере
 
-    # Используем уникальную папку для каждого теста
-    unique_profile = f"/tmp/chrome-profile-{datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}"
-    options.add_argument(f"--user-data-dir={unique_profile}")  # <== 🔹 Уникальная папка профиля
+    # Используем временную директорию для профиля Chrome
+    temp_dir = tempfile.mkdtemp()
+    options.add_argument(f"--user-data-dir={temp_dir}")
 
     service = Service(chromedriver_path)
     driver = webdriver.Chrome(service=service, options=options)
