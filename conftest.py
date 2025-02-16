@@ -9,9 +9,7 @@ import requests
 from services.account.api_account import AccountAPI
 import os
 from dotenv import load_dotenv, set_key, dotenv_values
-
 from services.db.database import PostgreSQL
-from services.db.parser import log_in
 import psycopg2
 from services.db.configuration import DB_CONFIG
 import time
