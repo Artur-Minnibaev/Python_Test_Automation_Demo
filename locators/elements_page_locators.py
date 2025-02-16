@@ -75,3 +75,17 @@ class ButtonsPageLocators:
     LOCATOR_DOUBLE_CLICK = (By.CSS_SELECTOR, "p[id='doubleClickMessage']")
     LOCATOR_RIGHT_CLICK = (By.CSS_SELECTOR, "p[id='rightClickMessage']")
     LOCATOR_SINGLE_CLICK = (By.CSS_SELECTOR, "p[id='dynamicClickMessage']")
+
+
+class LinksPageLocators:
+    """Description of using locators"""
+    # links
+    LOCATOR_HOME_LINK = (By.CSS_SELECTOR, "a[id='simpleLink']")
+    LOCATOR_DYNAMIC_LINK = (By.CSS_SELECTOR, "a[id='dynamicLink']")
+    LOCATOR_CREATED_LINK = (By.CSS_SELECTOR, "a[id='created']")
+    LOCATOR_NOCONTENT_LINK = (By.CSS_SELECTOR, "a[id='no-content']")
+    LOCATOR_MOVED_LINK = (By.CSS_SELECTOR, "a[id='moved']")
+    LOCATOR_BADREQUESTLINK = (By.CSS_SELECTOR, "a[id='bad-request']")
+    LOCATOR_UNAUTHORIZED_LINK = (By.CSS_SELECTOR, "a[id='unauthorized']")
+    LOCATOR_FORBIDDEN_LINK = (By.CSS_SELECTOR, "a[id='forbidden']")
+    LOCATOR_NOTFOUND_LINK = (By.CSS_SELECTOR, "a[id='invalid-url']")

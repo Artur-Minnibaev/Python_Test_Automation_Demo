@@ -14,6 +14,7 @@ import psycopg2
 from services.db.configuration import DB_CONFIG
 import time
 import json
+from services.db.parser import log_in
 
 HOST = config.config.HOST
 

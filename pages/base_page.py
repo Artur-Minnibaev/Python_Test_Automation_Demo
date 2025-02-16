@@ -16,6 +16,7 @@ class BasePage:
         self.base_url_radio_button = config.url_radio_button
         self.base_url_web_table = config.url_web_table
         self.base_url_buttons = config.url_buttons
+        self.base_url_links = config.url_links
 
     @allure.step("Search an element")
     def find_element(self, locator, timeout=10):
@@ -121,6 +122,9 @@ class BasePage:
 
     def open_page_buttons(self):
         return self.driver.get(self.base_url_buttons)
+
+    def open_page_links(self):
+        return self.driver.get(self.base_url_links)
 
     def action_double_click(self, element):
         action = ActionChains(self.driver)
