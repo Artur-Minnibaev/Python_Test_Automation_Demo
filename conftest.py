@@ -1,4 +1,3 @@
-import tempfile
 from datetime import datetime
 import allure
 import pytest
@@ -6,10 +5,6 @@ from selenium import webdriver
 import chromedriver_autoinstaller
 from selenium.webdriver.chrome.service import Service
 import config.config
-import requests
-from services.account.api_account import AccountAPI
-import os
-from dotenv import load_dotenv, set_key, dotenv_values
 from services.db.database import PostgreSQL
 import psycopg2
 from services.db.configuration import DB_CONFIG
@@ -20,79 +15,47 @@ from services.db.parser import log_in
 HOST = config.config.HOST
 
 
-# @pytest.fixture(scope="session", autouse=True)
-# def browser():
-#     """Set up Chrome through Selenium Grid"""
-#     chrome_options = webdriver.ChromeOptions()
-#     # chrome_options.add_argument('--headless=new')
-#     chrome_options.set_capability("browserName", "chrome")
-#     chrome_options.add_argument('--no-sandbox')
-#     chrome_options.add_argument("--disable-dev-shm-usage")
-#     chrome_options.add_argument('--disable-features=NetworkService')
-#
-#     max_attempts = 10
-#     for attempt in range(max_attempts):
-#         try:
-#             driver = webdriver.Remote(
-#                 command_executor='http://selenium-hub:4444/wd/hub',
-#                 options=chrome_options,
-#             )
-#             driver.set_page_load_timeout(120)
-#             driver.set_script_timeout(120)
-#             print("[INFO] Selenium Grid is ready!")
-#             break
-#         except Exception as e:
-#             print(f"[WARNING] Selenium Grid still not ready. Attempt {attempt+1}/{max_attempts}")
-#             time.sleep(5)
-#     else:
-#         pytest.exit("[FAIL] Unsuccessful connection to Selenium Grid!")
-#
-#     yield driver
-#
-#     attach = driver.get_screenshot_as_png()
-#     allure.attach(attach, name=f"Screenshot {datetime.today()}", attachment_type=allure.attachment_type.PNG)
-#
-#     driver.quit()
-
-# @pytest.fixture(scope="session", autouse=True)
-# def browser():
-#     service = Service("/usr/local/bin/chromedriver")
-#     options = webdriver.ChromeOptions()
-#     options.add_argument("--no-proxy-server")
-#     options.add_argument("--start-maximized")
-#     # options.add_argument("--headless")
-#     driver = webdriver.Chrome(service=service, options=options)
-#     yield driver
-#     attach = driver.get_screenshot_as_png()
-#     allure.attach(attach, name=f"Screenshot {datetime.today}", attachment_type=allure.attachment_type.PNG)
-#     driver.quit()
+def pytest_addoption(parser):
+    run_mode = parser.addoption("--run-mode", action="store", default="local", help="Choose run mode: local or docker")
+    print(f"[DEBUG] Run mode is {run_mode}")
 
 
-# # Additionally generator for local testing
-# @pytest.fixture(scope="session", autouse=True)
-# def chrome_browser():
-#     chromedriver_path = chromedriver_autoinstaller.install()
-#     options = webdriver.ChromeOptions()
-#     options.add_argument("--start-maximized")
-#     # options.add_argument("--headless")
-#     service = Service(chromedriver_path)
-#     driver = webdriver.Chrome(service=service, options=options)
-#     yield driver
-#     try:
-#         attach = driver.get_screenshot_as_png()
-#         allure.attach(
-#             attach,
-#             name=f"Screenshot {datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}",
-#             attachment_type=allure.attachment_type.PNG
-#         )
-#     except Exception as e:
-#         print(f"[FAIL]Attempt creating screenshot: {e}")
-#
-#     driver.quit()
+@pytest.fixture(scope="session")
+def docker_browser():
+    """Set up Chrome through Selenium Grid"""
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless=new')
+    chrome_options.set_capability("browserName", "chrome")
+    chrome_options.add_argument('--no-sandbox')
 
-# Additionally generator for local testing
-@pytest.fixture(scope="session", autouse=True)
-def chrome_browser():
+    max_attempts = 2
+    for attempt in range(max_attempts):
+        try:
+            driver = webdriver.Remote(
+                command_executor='http://selenium-hub:4444/wd/hub',
+                options=chrome_options,
+            )
+            driver.set_page_load_timeout(120)
+            driver.set_script_timeout(120)
+            print("[INFO] Selenium Grid is ready!")
+            break
+        except Exception as e:
+            print(f"[WARNING] Selenium Grid still not ready. Attempt {attempt+1}/{max_attempts}")
+            time.sleep(5)
+    else:
+        pytest.exit("[FAIL] Unsuccessful connection to Selenium Grid!")
+
+    yield driver
+
+    attach = driver.get_screenshot_as_png()
+    allure.attach(attach, name=f"Screenshot {datetime.today()}", attachment_type=allure.attachment_type.PNG)
+
+    driver.quit()
+
+
+@pytest.fixture(scope="session")
+def local_browser():
+    """Local testing"""
     chromedriver_path = chromedriver_autoinstaller.install()
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
@@ -110,9 +73,19 @@ def chrome_browser():
             attachment_type=allure.attachment_type.PNG
         )
     except Exception as e:
-        print(f"[FAIL] Ошибка при создании скриншота: {e}")
+        print(f"[FAIL] Exception during creating a screenshot: {e}")
 
     driver.quit()
+
+
+@pytest.fixture(scope="session")
+def browser(request):
+    run_mode = request.config.getoption("--run-mode")
+    print(f"[DEBUG] Running in mode: {run_mode}")
+
+    if run_mode == "docker":
+        return request.getfixturevalue("docker_browser")
+    return request.getfixturevalue("local_browser")
 
 
 @pytest.fixture(scope="session")

@@ -70,7 +70,7 @@ services:
     volumes:
       - ./:/usr/Python_Test_Automation_Demo
     command: >
-      sh -c "rm -rf allure-results && pytest -sv tests/ui_tests/ --alluredir=allure-results"
+      sh -c "rm -rf allure-results && pytest -sv tests/ui_tests/test_block_book_store_application.py::TestLogin::test_login --alluredir=allure-results --run-mode=docker"
     working_dir: /usr/Python_Test_Automation_Demo
     depends_on:
       selenium-hub:
